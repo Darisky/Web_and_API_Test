@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id("io.qameta.allure") version "2.12.0"
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Selenium
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.18.1'
+
+    //Cucumber
+    testImplementation 'io.cucumber:cucumber-junit:7.34.3'
+    testImplementation 'io.cucumber:cucumber-java:7.34.3'
+
+    //JUnit
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:6.0.3'
+
+    //JSON
+    testImplementation 'org.json:json:20251224'
+
+    //REST Assured
+    testImplementation 'io.rest-assured:rest-assured:6.0.0'
+
+    //email generator
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+def tags = (findProperty('tags') == null) ? 'not @exclude' : findProperty('tags') + ' and not @exclude'
+
+tasks.register('cucumber', JavaExec) {
+    description = "Running Cucumber Test"
+    dependsOn assemble, compileTestJava
+    mainClass = "io.cucumber.core.cli.Main"
+
+    classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+
+    args = [
+            '--plugin', 'html:reports/index.html',
+            '--plugin', 'pretty',
+            '--glue', 'com.darisky',
+            '--tags', "${tags}",
+            'src/test/resources'
+    ]
+}

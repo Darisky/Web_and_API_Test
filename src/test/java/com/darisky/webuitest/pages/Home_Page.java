@@ -1,0 +1,32 @@
+package com.darisky.webuitest.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Home_Page {
+    WebDriver theDriver;
+    WebDriverWait wait;
+    By loginHomePageButton = By.id("login2");
+    By checkUserName = By.id("nameofuser");
+
+    public Home_Page(WebDriver homePageDriver, WebDriverWait waitHomePage){
+        this.theDriver = homePageDriver;
+        this.wait = waitHomePage;
+    }
+
+    public void onDemoBlazeSite(){
+        theDriver.get("https://www.demoblaze.com/index.html");
+    }
+
+    public void setLoginHomePageButton(){
+        theDriver.findElement(loginHomePageButton).click();
+    }
+
+    public String setCheckUserName(){
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(checkUserName));
+        return element.getText();
+    }
+}
