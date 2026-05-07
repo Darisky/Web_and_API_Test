@@ -48,7 +48,7 @@ public class AutoApiTestStepdefs {
     @When("I fetch the user using the generated ID")
     public void iFetchTheUserUsingTheGeneratedID() {
         theResponse.then().assertThat()
-                .body(matchesJsonSchemaInClasspath("schemaValidator.json"));
+                .body(matchesJsonSchemaInClasspath("SchemaValidator.json"));
         theResponse = userService.getUser(newUserId);
         System.out.println("<------ SUCCESS Validating Schema for user: " + newUserId + "------>");
     }
