@@ -2,7 +2,6 @@ package com.darisky.apitest.stepdefs;
 
 import com.darisky.apitest.services.ApiTest;
 import com.github.javafaker.Faker;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,6 +10,7 @@ import io.restassured.response.Response;
 import org.json.JSONObject;
 
 import static org.junit.Assert.assertEquals;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class AutoApiTestStepdefs {
     ApiTest userService = new ApiTest();
@@ -42,17 +42,22 @@ public class AutoApiTestStepdefs {
         theResponse.then().assertThat().statusCode(200);
 
         newUserId = theResponse.jsonPath().getString("id");
-        System.out.println("SUCCESS: User created with ID: " + newUserId);
+        System.out.println("<------SUCCESS: User created with ID: " + newUserId + "------>");
     }
 
     @When("I fetch the user using the generated ID")
     public void iFetchTheUserUsingTheGeneratedID() {
+        theResponse.then().assertThat()
+                .body(matchesJsonSchemaInClasspath("schemaValidator.json"));
         theResponse = userService.getUser(newUserId);
+        System.out.println("<------ SUCCESS Validating Schema for user: " + newUserId + "------>");
     }
 
     @Then("the API should return status code {int}")
     public void theAPIShouldReturnStatusCode(int expectedResponse) {
-        theResponse.then().assertThat().statusCode(expectedResponse);
+        theResponse.then().log().all()
+                .assertThat().statusCode(expectedResponse);
+        System.out.println("<------SUCCESS: Showing Created User ------>");
     }
 
     @When("I update the user's first name to {string}")
@@ -64,7 +69,8 @@ public class AutoApiTestStepdefs {
 
     @Then("the user is successfully updated")
     public void theUserIsSuccessfullyUpdated() {
-        theResponse.then().assertThat().statusCode(200);
+        theResponse.then().log().all()
+                .assertThat().statusCode(200);
         String actualFirstName = theResponse.jsonPath().getString("firstName");
         assertEquals("The first name did not update correctly!", actualFirstName,"DenUpdated");
     }
@@ -74,7 +80,7 @@ public class AutoApiTestStepdefs {
         theResponse = userService.deleteUser(newUserId);
         theResponse.then().assertThat().statusCode(200);
 
-        System.out.println("CLEANUP SUCCESS: User " + newUserId + " has been permanently deleted.");
+        System.out.println("<------ CLEANUP SUCCESS: User " + newUserId + " has been permanently deleted. ------>");
     }
 
     @When("I fetch the tag list")
@@ -84,7 +90,7 @@ public class AutoApiTestStepdefs {
 
     @Then("the API return tag list")
     public void theAPIReturnTagList() {
-        theResponse.then().log().all()
+        theResponse.then()
                 .assertThat().statusCode(200)
                 .assertThat().body("data.size()", org.hamcrest.Matchers.greaterThan(0));
         System.out.println("SUCCESS: Tag list fetched successfully!");
