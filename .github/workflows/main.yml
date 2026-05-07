@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  DemoBlaze-automation-test:
+  Web_and_API_Test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,19 +34,19 @@ jobs:
         with:
           path: reports/
 
-  # deploy-report:
-  #   needs: Web_and_API_Test
-  #   if: always()
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     pages: write
-  #     id-token: write
-  #   environment:
-  #     name: github-pages
-  #     url: ${{ steps.deployment.outputs.page_url }}
-  #   steps:
-  #     - name: Setup GitHub Pages
-  #       uses: actions/configure-pages@v4
-  #     - name: Deploy to GitHub Pages
-  #       id: deployment
-  #       uses: actions/deploy-pages@v4
+  deploy-report:
+    needs: Web_and_API_Test
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
