@@ -56,6 +56,10 @@ Add GitHub Action
 ### Get Tag List
 - Getting Tag List with Get list
 
+## Nevagative Test Case
+- New user without email
+- New User first name more than 30 character
+
 
 ## Test Report Option
 - Artefact (reports/index.html)
