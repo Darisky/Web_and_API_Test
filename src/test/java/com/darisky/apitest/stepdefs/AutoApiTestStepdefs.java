@@ -2,6 +2,7 @@ package com.darisky.apitest.stepdefs;
 
 import com.darisky.apitest.services.ApiTest;
 import com.github.javafaker.Faker;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -19,6 +20,7 @@ public class AutoApiTestStepdefs {
     private String newUserId;
     private Response theResponse;
 
+    //Main-Test
     @Given("the DummyAPI endpoint is configured")
     public void theDummyAPIEndpointIsConfigured() {
     }
@@ -83,6 +85,7 @@ public class AutoApiTestStepdefs {
         System.out.println("<------ CLEANUP SUCCESS: User " + newUserId + " has been permanently deleted. ------>");
     }
 
+    //Tag-Test
     @When("I fetch the tag list")
     public void iFetchTheTagList() {
         theResponse = userService.getTagList();
@@ -94,5 +97,25 @@ public class AutoApiTestStepdefs {
                 .assertThat().statusCode(200)
                 .assertThat().body("data.size()", org.hamcrest.Matchers.greaterThan(0));
         System.out.println("SUCCESS: Tag list fetched successfully!");
+    }
+
+    //Negative-Test
+    @When("Create user with title {string}, first name {string}, last name {string} and without email")
+    public void createUserWithTitleFirstNameLastNameAndWithoutEmail(String title, String firstName, String lastName) {
+        JSONObject newUser = new JSONObject();
+        newUser.put("title", title)
+                .put("firstName", firstName)
+                .put("lastName", lastName);
+
+        theResponse = userService.createNewUser(newUser);
+    }
+
+    @Then("report error with code {int} and see message {string}")
+    public void reportErrorWithCodeAndSeeMessage(int errCode, String errMessage) {
+        theResponse.then().log().all()
+                .assertThat().statusCode(errCode) ;
+
+        String errorMessage = theResponse.jsonPath().getString("error");
+        assertEquals("here's error message", errMessage, errorMessage);
     }
 }
