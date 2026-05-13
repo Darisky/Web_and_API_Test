@@ -11,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class LoginPageStepdefs extends Base {
     Login_Page loginPage;
 
+    //login-Sequence
     @Then("user see user name and password field")
     public void userSeeUserNameAndPasswordField() {
         loginPage = new Login_Page(theDriver, wait);
@@ -27,6 +28,7 @@ public class LoginPageStepdefs extends Base {
         loginPage.setClickLogin();
     }
 
+    //login-sequence-Negative-Test
     @And("user input invalid username and password with {string} and {string}")
     public void userInputInvalidUsernameAndPasswordWithAnd(String invalidUserName, String invalidPassword) {
         loginPage.inputCredential(invalidUserName, invalidPassword);

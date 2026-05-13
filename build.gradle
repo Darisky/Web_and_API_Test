@@ -25,7 +25,6 @@ dependencies {
     testImplementation 'org.json:json:20251224'
     testImplementation 'io.rest-assured:json-schema-validator:5.4.0'
 
-
     //REST Assured
     testImplementation 'io.rest-assured:rest-assured:6.0.0'
 

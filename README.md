@@ -45,6 +45,14 @@ Add GitHub Action
 - User Click login Button at Credential Field
 - User see error message "Please fill out Username and Password."
 
+#### User Login Until Checkout
+- User login with valid credential
+- user choose product
+- user check product detail
+- user place order
+- user filling form order confirmation
+- user get detail order
+
 ### --- API Test ---
 #### CRUD
 - Create new user

@@ -13,11 +13,11 @@ public class Base {
 
     protected void getDriver(){
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         theDriver = new ChromeDriver(options);
     }
 
     protected void waiting(){
-        wait = new WebDriverWait(theDriver, Duration.ofSeconds(100));
+        wait = new WebDriverWait(theDriver, Duration.ofSeconds(1000));
     }
 }

@@ -6,11 +6,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 public class Home_Page {
     WebDriver theDriver;
     WebDriverWait wait;
+
+    //Object finder
     By loginHomePageButton = By.id("login2");
     By checkUserName = By.id("nameofuser");
+    By elementCartButton = By.xpath("//*[@id=\"cartur\"]");
 
     public Home_Page(WebDriver homePageDriver, WebDriverWait waitHomePage){
         this.theDriver = homePageDriver;
@@ -29,4 +34,10 @@ public class Home_Page {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(checkUserName));
         return element.getText();
     }
+
+    public void selectingProduct(String productName){
+        By productNameLocation = By.xpath("//a[text()='" + productName + "']");
+        wait.until(ExpectedConditions.elementToBeClickable(productNameLocation)).click();
+    }
+
 }
