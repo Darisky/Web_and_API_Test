@@ -13,7 +13,7 @@ public class Base {
 
     protected void getDriver(){
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         theDriver = new ChromeDriver(options);
     }
 
