@@ -2,18 +2,19 @@ package com.darisky.webuitest.stepdef;
 
 import com.darisky.webuitest.Base;
 import com.darisky.webuitest.pages.Checkout_Page;
-import io.cucumber.java.PendingException;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.support.ui.ExpectedCondition;
+
+import java.util.List;
+import java.util.Map;
 
 public class ChartPageStepdefs extends Base {
-    Checkout_Page checkoutPage;
+    Checkout_Page checkoutPage = new Checkout_Page(theDriver, wait);
 
-    @Then("user redirect into chart detail with list of selected product")
+    @And("user redirect into chart detail with list of selected product")
     public void userRedirectIntoChartDetailWithListOfSelectedProduct() {
-        checkoutPage = new Checkout_Page(theDriver, wait);
         checkoutPage.chartUrl();
         String getUrl = theDriver.getTitle();
         System.out.println("Current URL: " + getUrl);
@@ -24,7 +25,7 @@ public class ChartPageStepdefs extends Base {
         checkoutPage.isProductInCart(productName, productPrice);
     }
 
-    @Then("user click place order")
+    @And("user click place order")
     public void userClickPlaceOrder() {
         checkoutPage.clickPlaceOrder();
     }
@@ -34,9 +35,17 @@ public class ChartPageStepdefs extends Base {
         checkoutPage.checkFormOrder();
     }
 
-    @When("user input Name {string} Country {string} City {string} Credit card {string} Month {string} Year {string}")
-    public void userInputNameCountryCityCreditCardMonthYear(String name, String country, String city, String cc, String month, String year) {
-        checkoutPage.formCheckOut(name, country, city, cc, month, year);
+    @When("user input detail information:")
+    public void userInputDetailInformation(DataTable formTable) {
+        List<Map<String, String>> dataTable = formTable.asMaps(String.class, String.class);
+        String name = dataTable.get(0).get("Name");
+        String country = dataTable.get(0).get("Country");
+        String city = dataTable.get(0).get("City");
+        String ccNumber = dataTable.get(0).get("Credit_Card");
+        String ccYear = dataTable.get(0).get("Year");
+        String ccMonth = dataTable.get(0).get("Month");
+
+        checkoutPage.formCheckOut(name, country, city, ccNumber, ccMonth, ccYear);
     }
 
     @And("user verify total purchase")
@@ -45,12 +54,12 @@ public class ChartPageStepdefs extends Base {
         System.out.println("Here's total price" + checkoutPage.checkTotalPrice());
     }
 
-    @Then("user click purchase")
+    @And("user click purchase")
     public void userClickPurchase() {
         checkoutPage.clickPurchaseButton();
     }
 
-    @When("user see popup purchase confirmation")
+    @And("user see popup purchase confirmation")
     public void userSeePopupPurchaseConfirmation() {
         checkoutPage.checkFormOrder();
     }

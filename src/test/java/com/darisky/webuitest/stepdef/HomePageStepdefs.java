@@ -2,24 +2,23 @@ package com.darisky.webuitest.stepdef;
 
 import com.darisky.webuitest.Base;
 import com.darisky.webuitest.pages.Home_Page;
-import io.cucumber.java.PendingException;
+import com.darisky.webuitest.pages.Login_Page;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HomePageStepdefs extends Base {
-    Home_Page homePage;
+    Home_Page homePage = new Home_Page(theDriver, wait);
+    Login_Page loginPage = new Login_Page(theDriver, wait);
+
     @Given("user at home page about to login")
     public void userAtHomePageAboutToLogin() {
-        homePage = new Home_Page(theDriver, wait);
         homePage.onDemoBlazeSite();
     }
 
-    @When("user click Log In Button")
+    @And("user click Log In Button")
     public void userClickLogInButton() {
         homePage.setLoginHomePageButton();
     }
@@ -30,7 +29,7 @@ public class HomePageStepdefs extends Base {
         assertEquals(Text, homePage.setCheckUserName(), "Didn't Match");
     }
 
-    @When("user at home page see list of product")
+    @And("user at home page see list of product")
     public void userAtHomePageSeeListOfProduct() {
         homePage.onDemoBlazeSite();
     }
@@ -40,5 +39,15 @@ public class HomePageStepdefs extends Base {
         homePage.selectingProduct(product);
     }
 
+    @Given("user already logged in")
+    public void userAlreadyLoggedIn() {
+        String userName = "juniorTester";
+        String password = "theJuniorTester";
 
+        homePage.onDemoBlazeSite();
+        homePage.setLoginHomePageButton();
+        loginPage.checkLoginField();
+        loginPage.inputCredential(userName, password);
+        loginPage.setClickLogin();
+    }
 }
