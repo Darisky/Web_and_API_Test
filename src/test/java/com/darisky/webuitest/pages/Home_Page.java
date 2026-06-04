@@ -13,7 +13,6 @@ public class Home_Page {
     //Object finder
     By loginHomePageButton = By.id("login2");
     By checkUserName = By.id("nameofuser");
-    By elementCartButton = By.xpath("//*[@id=\"cartur\"]");
 
     public Home_Page(WebDriver homePageDriver, WebDriverWait waitHomePage){
         this.theDriver = homePageDriver;

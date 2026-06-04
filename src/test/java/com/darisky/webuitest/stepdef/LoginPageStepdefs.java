@@ -2,7 +2,6 @@ package com.darisky.webuitest.stepdef;
 
 import com.darisky.webuitest.Base;
 import com.darisky.webuitest.pages.Login_Page;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
