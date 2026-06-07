@@ -3,7 +3,6 @@ package com.darisky.apitest.stepdefs;
 import com.darisky.apitest.services.ApiTest;
 import com.github.javafaker.Faker;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -89,7 +88,7 @@ public class AutoApiTestStepdefs {
         theResponse.then().log().all()
                 .assertThat().statusCode(200);
         String actualFirstName = theResponse.jsonPath().getString("firstName");
-        assertEquals("The first name did not update correctly!", actualFirstName,"DenUpdated");
+        assertEquals("The first name did not update correctly!","DenUpdated", actualFirstName);
     }
 
     @And("I delete the user using the generated ID to clean up data")
